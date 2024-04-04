@@ -7,6 +7,7 @@ import DashboardLayer from "../DashboardLayer/DashbordLayer";
 import NewEntryForm from "../NewEntryForm/NewEntryForm";
 
 import { Box, CircularProgress, Snackbar } from "@mui/material";
+import { CoalTypeTranslations } from "../../utils/utils";
 
 const fetcher = new Fetcher();
 
@@ -48,7 +49,10 @@ const EditEntityForm = ({ apiUrl, name, listUrl, fields }: Props) => {
 
         setFormValues({
           ...data[name],
+        // @ts-ignore
+          type: CoalTypeTranslations[data[name].type],
         })
+
       } catch (e) {
         navigate(listUrl)
       }
@@ -65,8 +69,8 @@ const EditEntityForm = ({ apiUrl, name, listUrl, fields }: Props) => {
     fields.forEach(field => {
       if(field.values) {
         const id = formValues[field.name];
-        const value = field.values.find(x => x.id === id);
-        data.append(field.name, value?.value ?? '');
+        const value = field.values.find(x => x.value === id);
+        data.append(field.name, value!.value);
       } else {
         data.append(field.name, formValues[field.name]);
       }
