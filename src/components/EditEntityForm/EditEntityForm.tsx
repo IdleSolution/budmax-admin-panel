@@ -62,11 +62,11 @@ const EditEntityForm = ({ apiUrl, name, listUrl, fields }: Props) => {
     e.preventDefault();
     const data = new FormData();
 
-    fields.map(field => {
+    fields.forEach(field => {
       if(field.values) {
         const id = formValues[field.name];
         const value = field.values.find(x => x.id === id);
-        data.append(field.name, value!.value);
+        data.append(field.name, value?.value ?? '');
       } else {
         data.append(field.name, formValues[field.name]);
       }
